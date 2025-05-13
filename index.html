@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Тестовый чат без Telegram</title>
+  <title>Чат с Telegram авторизацией</title>
   <style>
     body { font-family: sans-serif; margin: 0; padding: 0; background: #f2f2f2; }
     #chat { height: 80vh; overflow-y: scroll; padding: 10px; }
@@ -11,11 +11,16 @@
   </style>
 </head>
 <body>
-  <h2 style="text-align:center;">Тестовый чат (без Telegram)</h2>
+  <h2 style="text-align:center;">Чат с авторизацией через Telegram</h2>
 
-  <div style="text-align:center; margin: 10px;">
-    <input type="text" id="fakeName" placeholder="Введите ваше имя" />
-    <button onclick="simulateLogin()">Войти</button>
+  <div style="text-align:center;">
+    <script async src="https://telegram.org/js/telegram-widget.js?7"
+            data-telegram-login="flipper_grabber_bot"
+            data-size="large"
+            data-userpic="false"
+            data-onauth="onTelegramAuth"
+            data-request-access="write">
+    </script>
   </div>
 
   <div id="chat"></div>
@@ -23,15 +28,15 @@
 
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script>
-    const socket = io("https://flipper-grabber.onrender.com");
+    const socket = io("https://flipper-grabber.onrender.com", {
+      transports: ['websocket'] // важно, иначе Render может резать polling
+    });
+
     let currentUser = null;
 
-    function simulateLogin() {
-      const name = document.getElementById('fakeName').value.trim();
-      if (!name) return alert('Введите имя!');
-      currentUser = { first_name: name };
+    function onTelegramAuth(user) {
+      currentUser = user;
       document.getElementById('messageInput').disabled = false;
-      document.getElementById('fakeName').disabled = true;
     }
 
     const input = document.getElementById('messageInput');
