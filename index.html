@@ -71,5 +71,19 @@
       }
     });
   </script>
+  <button onclick="clearChat()" style="position: fixed; bottom: 10px; right: 10px;">Очистить чат</button>
+
+<script>
+  function clearChat() {
+    const pass = prompt("Введите пароль для очистки:");
+    if (pass === "770") {
+      socket.emit('clear');
+      chat.innerHTML = '';
+    } else {
+      alert("Неверный пароль");
+    }
+  }
+</script>
+
 </body>
 </html>
