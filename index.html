@@ -15,7 +15,7 @@
 
     <div style="text-align:center;">
         <script async src="https://telegram.org/js/telegram-widget.js?7"
-                data-telegram-login="telegram"
+                data-telegram-login="flipper_grabber_bot"
                 data-size="large"
                 data-userpic="false"
                 data-onauth="onTelegramAuth"
@@ -43,7 +43,7 @@
             msgs.forEach(data => {
                 const el = document.createElement('div');
                 el.className = 'msg';
-                el.textContent = ${data.name}: ${data.text};
+                el.textContent = `${data.name}: ${data.text}`;
                 chat.appendChild(el);
             });
             chat.scrollTop = chat.scrollHeight;
@@ -52,7 +52,7 @@
         socket.on('message', data => {
             const el = document.createElement('div');
             el.className = 'msg';
-            el.textContent = ${data.name}: ${data.text};
+            el.textContent = `${data.name}: ${data.text}`;
             chat.appendChild(el);
             chat.scrollTop = chat.scrollHeight;
         });
